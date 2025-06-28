@@ -6,8 +6,8 @@ interface StatusBarProps {
 
 export const iPhone16StatusBar: React.FC<StatusBarProps> = ({ className = '' }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [batteryLevel, setBatteryLevel] = useState(87);
-  const [isCharging, setIsCharging] = useState(true);
+  const [batteryLevel] = useState(87);
+  const [isCharging] = useState(true);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -30,7 +30,7 @@ export const iPhone16StatusBar: React.FC<StatusBarProps> = ({ className = '' }) 
       {[1, 2, 3, 4].map((bar) => (
         <div
           key={bar}
-          className={`w-[3px] bg-white rounded-full transition-all duration-300 ${
+          className={`w-[3px] bg-white rounded-sm transition-all duration-300 ${
             bar <= 3 ? 'opacity-100' : 'opacity-30'
           }`}
           style={{ height: `${bar * 3 + 2}px` }}
@@ -44,7 +44,7 @@ export const iPhone16StatusBar: React.FC<StatusBarProps> = ({ className = '' }) 
       {[1, 2, 3].map((bar) => (
         <div
           key={bar}
-          className="w-[3px] bg-white rounded-full opacity-100"
+          className="w-[3px] bg-white rounded-sm opacity-100"
           style={{ height: `${bar * 4 + 2}px` }}
         />
       ))}
@@ -53,31 +53,26 @@ export const iPhone16StatusBar: React.FC<StatusBarProps> = ({ className = '' }) 
 
   const BatteryIndicator = () => (
     <div className="flex items-center gap-1">
-      <span className="text-white text-[15px] font-medium leading-none">{batteryLevel}%</span>
+      <span className="text-white text-sm font-medium leading-none">{batteryLevel}%</span>
       <div className="relative">
-        <div className="w-[27px] h-[13px] border-[1.5px] border-white/60 rounded-[3px] relative">
+        <div className="w-6 h-3 border border-white/60 rounded-sm relative bg-black">
           <div
-            className={`absolute top-[1px] left-[1px] h-[7px] rounded-[1px] transition-all duration-300 ${
+            className={`absolute top-0.5 left-0.5 h-2 rounded-sm transition-all duration-300 ${
               isCharging
                 ? 'bg-green-400'
                 : batteryLevel > 20
                 ? 'bg-white'
                 : 'bg-red-500'
             }`}
-            style={{ width: `${(batteryLevel / 100) * 21}px` }}
+            style={{ width: `${Math.max(2, (batteryLevel / 100) * 20)}px` }}
           />
-          <div className="absolute -right-[5px] top-[3px] w-[2px] h-[6px] bg-white/60 rounded-full" />
+          <div className="absolute -right-1 top-1 w-0.5 h-1 bg-white/60 rounded-full" />
         </div>
         {isCharging && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none">
-              <path
-                d="M3.8 7.2H1.6L4.4 0H6.6L5.2 4.8H8.4L4.4 12L3.8 7.2Z"
-                fill="#1a1a1a"
-                stroke="#1a1a1a"
-                strokeWidth="0.5"
-              />
-            </svg>
+            <div className="w-2 h-2 text-black">
+              ⚡
+            </div>
           </div>
         )}
       </div>
@@ -92,11 +87,11 @@ export const iPhone16StatusBar: React.FC<StatusBarProps> = ({ className = '' }) 
       </div>
       
       {/* Status Bar with black background for visibility */}
-      <div className="bg-black rounded-[25px] px-6 py-3">
+      <div className="bg-black rounded-3xl px-6 py-3 shadow-lg">
         <div className="flex justify-between items-center text-white">
           {/* Left side - Time */}
           <div className="flex items-center">
-            <span className="text-[17px] font-semibold leading-none tracking-tight">
+            <span className="text-lg font-semibold leading-none tracking-tight">
               {formatTime(currentTime)}
             </span>
           </div>
